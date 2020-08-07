@@ -1,7 +1,7 @@
 {
-  users.users.nixos = {
+  users.users.cj = {
     uid = 1000;
-    password = "nixos";
+    initialPassword = "nixos";
     description = "default";
     isNormalUser = true;
     extraGroups = [ "wheel" ];

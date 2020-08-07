@@ -103,24 +103,16 @@ in
   };
 
   nix = {
-
     autoOptimiseStore = true;
-
     gc.automatic = true;
-
     optimise.automatic = true;
-
     useSandbox = true;
-
     allowedUsers = [ "@wheel" ];
-
     trustedUsers = [ "root" "@wheel" ];
-
     extraOptions = ''
       experimental-features = nix-command flakes ca-references
       min-free = 536870912
     '';
-
   };
 
   programs.bash = {
@@ -132,16 +124,20 @@ in
     '';
   };
 
+  programs.fish = {
+    promptInit = ''
+      ${pkgs.starship}/bin/starship init fish | source
+    '';
+    shellInit = ''
+      ${pkgs.direnv}/bin/direnv hook bash | source
+    '';
+  };
+
   security = {
-
     hideProcessInformation = true;
-
     protectKernelImage = true;
-
   };
 
   services.earlyoom.enable = true;
-
   users.mutableUsers = false;
-
 }

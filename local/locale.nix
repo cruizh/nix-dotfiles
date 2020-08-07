@@ -1,4 +1,6 @@
 { ... }: {
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "America/Denver";
+  i18n.defaultLocale = "es_ES.UTF-8";
+  time.timeZone = "EuropeMadrid";
+  console.keyMap = "es";
+  services.xserver.layout = "es";
 }
