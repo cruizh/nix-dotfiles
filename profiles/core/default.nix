@@ -84,14 +84,17 @@ in
   };
 
   fonts = {
-    fonts = with pkgs; [ powerline-fonts dejavu_fonts ];
+    fonts = with pkgs; [
+      dejavu_fonts
+      noto-fonts
+      noto-fonts-emoji
+      fira-code
+      fira-code-symbols
+    ];
 
     fontconfig.defaultFonts = {
-
       monospace = [ "DejaVu Sans Mono for Powerline" ];
-
       sansSerif = [ "DejaVu Sans" ];
-
     };
   };
 
