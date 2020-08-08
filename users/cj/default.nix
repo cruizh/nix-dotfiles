@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   home-manager.users.cj  = {
@@ -15,7 +15,10 @@
       VISUAL = "emacs";
     };
 
+    fonts.fontconfig.enable = lib.mkForce true;
+
     nixpkgs.config.allowUnfree = true;
+
     home.packages = with pkgs; [
       bitwarden bitwarden-cli
       tdesktop
