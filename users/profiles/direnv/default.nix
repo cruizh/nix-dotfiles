@@ -1,6 +1,8 @@
 {
   programs.direnv = {
     enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
     stdlib = ''
       use_flake() {
         mkdir -p $(direnv_layout_dir)

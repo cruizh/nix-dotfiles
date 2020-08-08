@@ -3,7 +3,6 @@
 {
   programs.kitty.extraConfig = ''
     include dracula.conf
-    include diff.conf
   '';
 
   xdg.configFile = {
