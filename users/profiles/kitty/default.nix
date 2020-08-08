@@ -3,9 +3,10 @@
 {
   programs.kitty = {
   enable = true;
-  font.name = "Fira Code Regular Nerd Font Complete 13";
-  font.package = pkgs.nerdfonts;
+  font.name = "Fira Code";
+  font.package = pkgs.fira-code;
   settings = {
+    font_size = 13;
     shell = "fish";
     tab_bar_style = "powerline";
   };
