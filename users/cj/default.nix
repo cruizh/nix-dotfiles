@@ -6,9 +6,11 @@
                 ../profiles/kitty
                 ../profiles/kitty/themes/dracula
                 ../profiles/starship
+                ../profiles/emacs
               ];
 
     programs.git.enable = true;
+    programs.fish.enable = true;
 
     home.sessionVariables = {
       EDITOR = "emacs";

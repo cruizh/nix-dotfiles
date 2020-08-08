@@ -113,7 +113,7 @@ in
 
 
   security = {
-    hideProcessInformation = true;
+    hideProcessInformation = lib.mkDefault true;
     protectKernelImage = true;
   };
 

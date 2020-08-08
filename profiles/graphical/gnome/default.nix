@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
+  services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
+  security.hideProcessInformation = false; # Needed for GDM Wayland
+
   services.xserver.desktopManager.gnome3.enable = true;
   services.gnome3.games.enable = false;
   environment.gnome3.excludePackages = with pkgs.gnome3; [
