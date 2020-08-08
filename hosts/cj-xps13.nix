@@ -39,12 +39,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-#  boot.kernelParams = [
-#    "i915.modeset=1"
-#    "i915.enable_fbc=1"
-#    "i915.enable_guc=3"
-#    "i915.enable_psr=0"
-#  ];
+  boot.kernelParams = [
+    "i915.disable_power_well=0"
+    "i915.enable_psr=1"
+    "i915.enable_rc6=1"
+    "i915.enable_guc=1"
+    "i915.enable_fbc=1"
+  ];
 
   hardware.opengl = {
     enable = true;
