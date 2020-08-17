@@ -1,5 +1,9 @@
 { pkgs, lib, ... }:
 
+let
+  fullName = "Carlos José Ruiz-Henestrosa Ruiz";
+  email = "ruizh.cj@gmail.com";
+in
 {
   home-manager.users.cj  = {
     imports = [ ../profiles/lorri
@@ -9,7 +13,12 @@
                 ../profiles/emacs
               ];
 
-    programs.git.enable = true;
+    programs.git = {
+      enable = true;
+      userName = fullName;
+      userEmail = email;
+    };
+
     programs.fish.enable = true;
 
     home.sessionVariables = {
@@ -36,7 +45,7 @@
   users.users.cj = {
     uid = 1000;
     hashedPassword = "$6$ww9uUxCwTf7tkV$7wKhIAVSR2it93yaa3KBqwxR0dGlXlAbHpDvitTOOwHTDIjW01WpV0AOz4bgwUwj54bV4SO/afEg54hNrhQ2w1";
-    description = "Carlos José Ruiz-Henestrosa Ruiz";
+    description = fullName;
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };
