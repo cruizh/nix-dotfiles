@@ -19,6 +19,7 @@ in
       userEmail = email;
     };
 
+    programs.ssh.enable = true;
     programs.fish.enable = true;
 
     home.sessionVariables = {
