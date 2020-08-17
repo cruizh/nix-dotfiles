@@ -47,6 +47,7 @@ in
       discord
       skypeforlinux
       gnomeExtensions.gsconnect
+      git-crypt
     ];
 
   };
