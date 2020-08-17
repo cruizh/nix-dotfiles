@@ -17,10 +17,19 @@ in
       enable = true;
       userName = fullName;
       userEmail = email;
+      signing = {
+        key = "5B21B0B57E85CB82";
+        signByDefault = true;
+      };
     };
 
     programs.ssh.enable = true;
     programs.fish.enable = true;
+    programs.gpg.enable = true;
+    services.gpg-agent = {
+      enable = true;
+      pinentryFlavor = "gnome3";
+    };
 
     home.sessionVariables = {
       EDITOR = "emacs";
@@ -45,7 +54,7 @@ in
 
   users.users.cj = {
     uid = 1000;
-    hashedPassword = "$6$ww9uUxCwTf7tkV$7wKhIAVSR2it93yaa3KBqwxR0dGlXlAbHpDvitTOOwHTDIjW01WpV0AOz4bgwUwj54bV4SO/afEg54hNrhQ2w1";
+    hashedPassword = lib.fileContents ../../secrets/cj;
     description = fullName;
     isNormalUser = true;
     extraGroups = [ "wheel" ];
