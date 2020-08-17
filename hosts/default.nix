@@ -16,6 +16,7 @@ let
   config = hostName:
     lib.nixosSystem {
       inherit system;
+      extraArgs = { inherit pkgset; };
 
       modules =
         let
