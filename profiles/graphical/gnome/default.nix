@@ -22,4 +22,8 @@
     gnome-weather
   ];
   programs.geary.enable = false;
+
+  environment.systemPackages = with pkgs; [
+    firefox
+  ];
 }
