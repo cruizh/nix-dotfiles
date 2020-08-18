@@ -10,7 +10,7 @@ in
                 ../profiles/kitty
                 ../profiles/kitty/themes/dracula
                 ../profiles/starship
-                ../profiles/emacs
+                ./doom-emacs.nix
               ];
 
     programs.git = {
@@ -51,7 +51,6 @@ in
     ];
 
   };
-
 
   users.users.cj = {
     uid = 1000;

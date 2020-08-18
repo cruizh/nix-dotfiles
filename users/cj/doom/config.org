@@ -1,0 +1,236 @@
+#+TITLE: Carlos' Doom Emacs config
+#+AUTHOR: Carlos J. Ruiz-Henestrosa Ruiz
+
+* About
+
+This is my Doom Emacs config. It requires src_emacs-lisp[:eval no :tangle no :exports code]{:config literate} to be enabled in [[file+emacs:~/.doom.d/init.el][init.el]].
+
+Remember that you don't have to run src_sh[:tangle no :eval no :exports code]{doom sync} after modifying this file.
+
+* Emacs headers
+First of all, we enable lexical binding. This is the default for Doom Emacs config files and you can see the differences with dynamic binding [[https://www.emacswiki.org/emacs/DynamicBindingVsLexicalBinding][here]].
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+
+* Personal information
+Many packages require the full name and email address to be stored in these variables.
+#+begin_src emacs-lisp
+(setq user-full-name "Carlos José Ruiz-Henestrosa Ruiz"
+      user-mail-address "ruizh.cj@gmail.com")
+#+end_src
+
+* Fonts
+Doom exposes five (optional) variables for controlling fonts in Doom. Here
+are the three important ones:
+
++ src_emacs-lisp[:eval no :tangle no :exports code]{doom-font}
++ src_emacs-lisp[:eval no :tangle no :exports code]{doom-variable-pitch-font}
++ src_emacs-lisp[:eval no :tangle no :exports code]{doom-big-font}, used for src_emacs-lisp[:eval no :tangle no :exports code]{doom-big-font-mode}; use this for
+  presentations or streaming.
+
+They all accept either a font-spec, font string (="Input Mono-12"=), or xlfd
+font string.
+
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "Fira Code" :size 16))
+#+end_src
+
+* Theme
+There are two ways to load a theme. Both assume the theme is installed and
+available. You can either set `doom-theme' or manually load a theme with the
+`load-theme' function. This is the default:
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-dracula)
+#+end_src
+
+* Org
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+
+(after! org
+  (setq org-agenda-start-on-weekday 1)
+  (setq calendar-week-start-day 1)
+  (add-to-list 'org-latex-packages-alist '("AUTO" "babel"       t ("pdflatex")))
+  (add-to-list 'org-latex-packages-alist '("AUTO" "polyglossia" t ("xelatex" "lualatex"))))
+#+end_src
+** org-noter
+#+BEGIN_SRC emacs-lisp
+(use-package! org-noter
+  :after (:any org pdf-view)
+  :config
+  (setq
+   org-noter-notes-window-location 'other-frame
+   org-noter-always-create-frame nil
+   org-noter-hide-other nil
+   org-noter-notes-search-path (list "/home/cj/org/notes/")))
+#+END_SRC
+** org-ref
+[[github:jkitchin/org-ref][org-ref]] is an org-mode module for citations and bibliographies en org-mode with bibtex support. It is not currently part of any Doom Emacs modules, so we have to install it separately:
+
+#+BEGIN_SRC emacs-lisp :tangle packages.el
+(package! org-ref)
+#+END_SRC
+
+We only load the package after =org= and set the PDF opener to the default. There are more options in the [[https://github.com/jkitchin/org-ref#configuration][README]].
+#+BEGIN_SRC emacs-lisp
+(use-package! org-ref
+  :after org
+  :config
+#+END_SRC
+
+*** Files
+#+BEGIN_SRC emacs-lisp
+(setq org-ref-pdf-directory "~/Documentos/bibliography/bibtex-pdfs/"
+      org-ref-default-bibliography "~/Documentos/bibliography/references.bib")
+#+END_SRC
+
+**** Bibtex
+#+BEGIN_SRC emacs-lisp
+(setq bibtex-completion-bibliography org-ref-default-bibliography
+      bibtex-completion-library-path "~/Documentos/bibliography/bibtex-pdfs")
+#+END_SRC
+
+*** Completion functions
+
+#+BEGIN_SRC emacs-lisp
+;; (setq bibtex-completion-pdf-open-function 'org-open-file)
+#+END_SRC
+
+*** LaTeX export
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+)
+#+END_SRC
+* Appearance
+#+begin_src emacs-lisp
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+(setq display-line-numbers-type 'relative)
+#+end_src
+* LaTeX (=auctex=)
+#+BEGIN_SRC emacs-lisp
+(after! latex
+#+END_SRC
+
+First, we set =TeX-electric-math= so that pressing =$= writes
+=$...$= in plain TeX files and =\(...\)= in LaTeX files.
+#+begin_src emacs-lisp
+  (setq-hook! 'plain-tex-mode-hook
+    TeX-electric-math (cons "$" ""))
+  (setq-hook! 'LaTeX-mode-hook
+    TeX-electric-math (cons "\\(" ""))
+#+end_src
+
+Enable =LaTeX-math-mode= (for fast mathematical input)
+#+begin_src emacs-lisp
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+#+end_src
+
+=LaTeX-math-abbrev-prefix= needs to be set through =customize=.
+=doom= provides =setq!= to help with this, but I can't seem to get it to work.
+See https://lists.gnu.org/archive/html/help-gnu-emacs/2008-06/msg00651.html for the suggestion
+and =(defcustom LaTeX-math-abbrev-prefix "`"= near [[file://~/.emacs.d/.local/straight/repos/auctex/latex.el:4722][auctex/latex.el:4722]]
+for the explanation of what using =customize= does.
+
+If it did work, we could just do this:
+#+begin_src emacs-lisp :tangle no
+(setq! LaTeX-math-abbrev-prefix "ç")
+(add-hook 'LaTeX-math-mode-hook
+          (customize-set-variable 'LaTeX-math-abbrev-prefix "ç"))
+#+end_src
+
+But instead we have to do everything manually.
+
+#+begin_src emacs-lisp
+  (add-hook! 'LaTeX-math-mode-hook
+    (define-key LaTeX-math-mode-map
+      (LaTeX-math-abbrev-prefix) t)                  ; Unbind "`"
+    (set-default 'LaTeX-math-abbrev-prefix "ç")      ; Set "ç" as new prefix
+    (define-key LaTeX-math-mode-map
+      (LaTeX-math-abbrev-prefix) LaTeX-math-keymap)) ; Bind "ç"
+#+end_src
+
+Finally we close the src_emacs-lisp[:eval no :tangle no :exports code]{after! latex} block:
+#+begin_src emacs-lisp
+)
+#+end_src
+
+* Python (conda)
+#+begin_src emacs-lisp
+(after! conda
+  (setq conda-anaconda-home "~/.conda"))
+
+;; (after! python
+;;   (setq python-shell-interpreter "ipython"))
+#+end_src
+* Hideshow
+#+begin_src emacs-lisp
+(after! hideshow
+  (add-to-list 'hs-special-modes-alist
+               '(conf-mode "{{{" "}}}" "\"")))
+#+end_src
+* Emacs-pGTK
+I run [[https://github.com/masm11/emacs/tree/pgtk/][emacs-pgtk]], which doesn't recognise some dead keys by default. Fortunately, we can fix that by running:
+#+begin_src emacs-lisp
+(when (eq window-system 'pgtk)
+  (pgtk-use-im-context t))
+#+end_src
+* R (=ess=)
+#+begin_src emacs-lisp
+(after! ess-r-mode
+  (appendq! +pretty-code-symbols
+            '(:assign "⟵"
+              :multiply "×"))
+  (set-pretty-symbols! 'ess-r-mode
+    ;; Functional
+    :def "function"
+    ;; Types
+    :null "NULL"
+    :true "TRUE"
+    :false "FALSE"
+    :int "int"
+    :float "float"
+    :bool "bool"
+    ;; Flow
+    :not "!"
+    :and "&&" :or "||"
+    :for "for"
+    :in "%in%"
+    :return "return"
+    ;; Other
+    :assign "<-"
+    :multiply "%*%"))
+#+end_src
+* Email (=mu4e=)
+#+begin_src emacs-lisp
+(after! mu4e
+  (setq mu4e-view-use-gnus t)
+  ;; Each path is relative to `+mu4e-mu4e-mail-path', which is ~/.mail by default
+  (set-email-account! "GMail"
+    '((mu4e-sent-folder       . "/gmail/[Gmail]/Enviados")
+      (mu4e-drafts-folder     . "/gmail/[Gmail]/Borradores")
+      (mu4e-trash-folder      . "/gmail/[Gmail]/Papelera")
+      (mu4e-refile-folder     . "/gmail/[Gmail]/Todos")
+      (smtpmail-smtp-user     . "ruizh.cj@gmail.com")
+      (mu4e-compose-signature . "--\nCarlos José Ruiz-Henestrosa Ruiz")) t))
+#+end_src
+* Other
+#+begin_src emacs-lisp
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values '((TeX-engine . xelatex))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+#+end_src
