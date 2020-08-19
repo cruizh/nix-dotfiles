@@ -115,6 +115,7 @@ in
   security = {
     hideProcessInformation = lib.mkDefault true;
     protectKernelImage = true;
+    wrappers.fusermount.source = "${pkgs.fuse}/bin/fusermount";
   };
 
   services.earlyoom.enable = true;
