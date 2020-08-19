@@ -3,6 +3,7 @@
 {
   imports = [
     ../users/cj
+    ../users/charlie
     ../users/root
     ../profiles/graphical/gnome
   ];
