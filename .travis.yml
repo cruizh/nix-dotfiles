@@ -1,0 +1,4 @@
+language: nix
+script:
+  - find secrets -type f -exec sh -c '>"{}"' \; # Substitute secrets by empty strings
+  - nix-shell --run "nix flake check"
