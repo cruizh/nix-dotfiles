@@ -12,6 +12,7 @@ in
                 ../profiles/starship
                 ./doom-emacs.nix
                 ./rclone.nix
+                ./cachix.nix
               ];
 
     programs.git = {
