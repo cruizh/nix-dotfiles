@@ -11,6 +11,7 @@ in
                 ../profiles/kitty/themes/dracula
                 ../profiles/starship
                 ./doom-emacs.nix
+                ./rclone.nix
               ];
 
     programs.git = {
