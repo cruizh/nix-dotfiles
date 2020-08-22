@@ -26,7 +26,14 @@ in
     };
 
     programs.ssh.enable = true;
-    programs.fish.enable = true;
+
+    programs.fish = {
+      enable = true;
+      shellAliases = {
+        windows = "systemctl reboot --boot-loader-entry=auto-windows";
+      };
+    };
+
     programs.gpg.enable = true;
     services.gpg-agent = {
       enable = true;
