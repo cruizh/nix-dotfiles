@@ -28,7 +28,11 @@
       aspellDicts.en aspellDicts.en-computers aspellDicts.en-science
       languagetool
       editorconfig-core-c
-      texlive.combined.scheme-medium
+      (texlive.combine { inherit (texlive)
+        scheme-medium
+        collection-latexextra
+        collection-fontsextra
+      ;})
     ];
   in lib.concatLists [ fonts required optional modules ];
 }

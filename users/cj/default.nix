@@ -10,7 +10,7 @@ in
                 ../profiles/kitty
                 ../profiles/kitty/themes/dracula
                 ../profiles/starship
-                ./doom-emacs.nix
+                ../profiles/emacs
                 ./rclone.nix
                 ./cachix.nix
               ];
