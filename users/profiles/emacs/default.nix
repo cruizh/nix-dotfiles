@@ -1,7 +1,13 @@
 { config, lib, pkgs, ... }:
 
 {
-  programs.emacs.enable = true;
+
+  programs.emacs = {
+    enable = true;
+    extraPackages = epkgs: with epkgs; [ vterm ];
+  };
+
+  home.sessionVariables.PATH = "${config.home.homeDirectory}/.emacs.d/bin:$PATH";
 
   home.packages = with pkgs; let
     fonts = [
