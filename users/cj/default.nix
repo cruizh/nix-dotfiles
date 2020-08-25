@@ -13,7 +13,10 @@ in
                 ../profiles/emacs
                 ./rclone.nix
                 ./cachix.nix
+                ./mu.nix
               ];
+
+    modules.mail.enable = true;
 
     programs.git = {
       enable = true;
