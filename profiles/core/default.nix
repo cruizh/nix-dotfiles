@@ -103,7 +103,7 @@ in
     gc.automatic = true;
     optimise.automatic = true;
     useSandbox = true;
-    allowedUsers = [ "@wheel" ];
+    allowedUsers = [ "@wheel" "@users" ];
     trustedUsers = [ "root" "@wheel" ];
     extraOptions = ''
       experimental-features = nix-command flakes ca-references
